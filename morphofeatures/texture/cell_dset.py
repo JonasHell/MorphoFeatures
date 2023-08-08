@@ -143,7 +143,7 @@ class TextPatchContrCellDataset(CellDataset):
 
         cell_bb = self.cut_to_size(cell_idx)
         crop_bb = [slice(sl1.start + sl2.start, sl1.start + sl2.stop)
-                   for sl1, sl2 in zip(cell_bb, rand_bb)]
+                   for sl1, sl2 in zip(cell_bb, rand_bb)]  # don't take entir cell bb just the part around nucl
         hr_bb = tuple([slice(sl.start * self.bb_scale, sl.stop * self.bb_scale)
                        for sl in crop_bb])
 
@@ -168,7 +168,7 @@ class TextPatchContrCellDataset(CellDataset):
             input_data = self.get_data_stack(cell_idx, pos)
             return self.transform(input_data, self.tfs)
 
-        data_stack = self.get_data_stack(cell_idx, pos)
+        data_stack = self.get_data_stack(cell_idx, pos)  # (32, 32, 32)
         target_data = [self.transform(data_stack.copy(), self.tfs) for i in range(2)]
         input_data = [self.transform(i.clone(), self.tfs_sim) for i in target_data]
         return torch.stack(input_data), torch.stack(target_data)

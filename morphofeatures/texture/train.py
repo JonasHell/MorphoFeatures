@@ -86,6 +86,12 @@ def training(project_directory, train_configuration_file,
     logger.info("Loading training and validation data loader from %s." % data_configuration_file)
     loader = CellLoaders(data_configuration_file)
     train_loader, validation_loader = loader.get_train_loaders()
+    # x1, x2 = train_loader.dataset[0]
+    # for t in train_loader:
+    #     print(t)
+    #     print(len(t))
+    #     # print(t.shape)
+
     trainer.set_max_num_epochs(config.get('num_epochs', 10))
 
     logger.info("Binding loaders to trainer.")
@@ -127,6 +133,13 @@ def main():
     training(project_directory, train_config, data_config,
              devices=args.devices, from_checkpoint=args.from_checkpoint)
 
+def my_main():
+    project_directory = "/g/kreshuk/hellgoth/ML4ExM_project/morpho_features/understand_code"
+    train_config = os.path.join(project_directory, 'train_config.yml')
+    data_config = os.path.join(project_directory, 'data_config.yml')
+    training(project_directory, train_config, data_config,
+             devices="0", from_checkpoint=0)
 
 if __name__ == '__main__':
-    main()
+    # main()
+    my_main()
