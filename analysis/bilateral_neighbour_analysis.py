@@ -101,8 +101,15 @@ def plot_many_dists(dist_list, names_list, mv=200):
     plt.ylim(0.2, 1)
     plt.xlim(0, mv)
     plt.legend(loc='lower right', fontsize=20)
+    plt.savefig('/scratch/hellgoth/ML4ExM/experiments/platy/predictions/bilateral_dist_both.png', dpi=300)
     plt.show()
 
+def my_plot_hist(dist):
+    plt.hist(dist, bins=100, label='bilateral distance')
+    plt.xlim(0, 12000)
+    plt.legend(loc='lower right', fontsize=20)
+    plt.savefig('/scratch/hellgoth/ML4ExM/experiments/platy/predictions/bilateral_hist_nodens.png', dpi=300)
+    plt.show()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Calculate the bilateral pairs difference')
@@ -112,6 +119,8 @@ if __name__ == '__main__':
                         help='another set of features to analyze')
     parser.add_argument('--plot', type=int, default=0,
                         help='plot the distance distribution')
+    parser.add_argument('--hist', action='store_true',
+                        help='plot the histogram of distances')
     parser.add_argument('--save_dist', type=str, default=None,
                         help='path to save distance for each cell')
     parser.add_argument('--cosine', type=int, default=0, choices=[0, 1],
@@ -141,7 +150,11 @@ if __name__ == '__main__':
         print(int(np.mean(nbr_dist2)), int(np.std(nbr_dist2)), int(np.median(nbr_dist2)))
 
     if args.plot:
-        plot_many_dists(distances, [str(i) for i in range(len(distances))], mv=args.plot)
+        # plot_many_dists(distances, [str(i) for i in range(len(distances))], mv=args.plot)
+        plot_many_dists(distances, ["mine", "Valentyna's"], mv=args.plot)
+
+    if args.hist and len(distances) == 1:
+        my_plot_hist(distances[0])
 
     if args.save_dist is not None:
         tosave = np.column_stack([filt_ids, nbr_dist])
