@@ -2,6 +2,7 @@
 
 import time
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import sys
 import logging
 import argparse
@@ -138,7 +139,7 @@ def my_main():
     train_config = os.path.join(project_directory, 'train_config.yml')
     data_config = os.path.join(project_directory, 'data_config.yml')
     training(project_directory, train_config, data_config,
-             devices="0", from_checkpoint=0)
+             devices="1", from_checkpoint=0)
 
 if __name__ == '__main__':
     # main()
