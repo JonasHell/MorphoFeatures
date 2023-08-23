@@ -19,7 +19,7 @@ big_merges_ids = [19150, 21994, 19465, 27204, 18324, 28660, 12279, 20136,
 
 
 def get_data(emb_file, label_file):
-    all_embed = np.load(emb_file)
+    all_embed = np.loadtxt(emb_file) if emb_file.endswith(".np") else np.load(emb_file)
     all_ids = all_embed[:, 0]
     all_embed = all_embed[:, 1:]
     label_df = pd.read_csv(label_file, sep='\t')
