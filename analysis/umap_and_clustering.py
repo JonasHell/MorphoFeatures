@@ -40,6 +40,7 @@ def get_umap(emb, neib=15, metric='euclidean', min_dist=0.0, n_components=2):
 
 
 def plot_types(emb, cell_types, type_names):
+    plt.figure(dpi=300, figsize=(16, 9))
     colors = sns.color_palette("Set1")
     colors = [colors[i] for i in [4, 1, 3, 0, 2, 5, 6]]
     for tp in np.unique(cell_types):
@@ -49,7 +50,9 @@ def plot_types(emb, cell_types, type_names):
         else:
             plt.scatter(tp_data[:, 0], tp_data[:, 1], color=colors[tp-1], label=type_names[tp])
     plt.legend(loc='upper left', fontsize=15)
+    plt.savefig('/scratch/hellgoth/ML4ExM/experiments/platy/predictions/umap2.png', dpi=300, figsize=(16, 9))
     plt.show()
+    plt.clf()
 
 
 def umap_leiden_clust(emb, nn=20, res=0.004):
@@ -61,8 +64,11 @@ def umap_leiden_clust(emb, nn=20, res=0.004):
     cl_labels = np.array(part.membership)
     analyze(cl_labels, types, ids, neighbors_dict)
     show_types_in_clusters(cl_labels, types, type_names)
+    plt.figure(dpi=300, figsize=(16, 9))
     plt.scatter(umap_emb[:, 0], umap_emb[:, 1], c=cl_labels, cmap='Spectral')
+    plt.savefig('/scratch/hellgoth/ML4ExM/experiments/platy/predictions/umap_cluster2.png', dpi=300, figsize=(16, 9))
     plt.show()
+    plt.clf()
     return cl_labels
 
 
